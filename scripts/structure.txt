@@ -1,0 +1,52 @@
+campusnest/
+├── backend/                        # Node.js/Express.js backend (API)
+│   ├── config/                     # Configuration files
+│   │   └── db.js                   # MongoDB connection setup
+│   ├── models/                     # MongoDB schemas/models
+│   │   ├── User.js                 # User schema (e.g., name, email)
+│   │   ├── Dorm.js                 # Dorm schema (e.g., name, university, photoUrls)
+│   │   ├── Review.js               # Review schema (e.g., rating, comment)
+│   ├── routes/                     # API routes
+│   │   ├── auth.js                 # Authentication endpoints (login, register)
+│   │   ├── dorms.js                # Dorm endpoints (list, get dorm, upload photo)
+│   │   ├── reviews.js              # Review endpoints (create, list by dorm)
+│   ├── middleware/                 # Custom middleware
+│   │   ├── auth.js                 # JWT authentication middleware
+│   ├── uploads/                    # Folder for uploaded photos
+│   ├── .env                        # Environment variables (e.g., MongoDB URI)
+│   ├── server.js                   # Main backend server file
+│   ├── package.json                # Backend dependencies and scripts
+├── frontend/                       # React frontend (UI)
+│   ├── public/                     # Static assets for React
+│   │   ├── index.html              # Main HTML file
+│   │   ├── favicon.ico             # Website icon
+│   │   ├── manifest.json           # Web app manifest
+│   ├── src/                        # React source code
+│   │   ├── assets/                 # Images, fonts, etc.
+│   │   │   ├── images/             # Static images (e.g., logo)
+│   │   │   └── styles/             # Global CSS/SCSS files
+│   │   ├── components/             # Reusable UI components
+│   │   │   ├── Navbar.js           # Navigation bar
+│   │   │   ├── DormCard.js         # Card for displaying a dorm
+│   │   │   ├── ReviewForm.js       # Form for submitting reviews
+│   │   │   ├── PhotoUpload.js      # Form for uploading photos
+│   │   │   └── Footer.js           # Footer for pages
+│   │   ├── pages/                  # Page components (routes)
+│   │   │   ├── Home.js             # Homepage (search, featured dorms) 
+│   │   │   ├── DormPage.js         # Single dorm details page
+│   │   │   ├── SearchPage.js       # Search results page
+│   │   │   ├── Login.js            # Login page
+│   │   │   ├── Register.js         # Registration page
+│   │   │   ├── About.js            # About page
+│   │   │   ├── Contact.js          # Contact page
+│   │   │   ├── Terms.js            # Terms of service page
+│   │   │   └── Privacy.js          # Privacy policy page
+│   │   ├── context/                # React context for state management
+│   │   │   └── AuthContext.js      # Manage user authentication state
+│   │   ├── App.js                  # Main app component (routing)
+│   │   ├── index.js                # React entry point
+│   │   └── App.css                 # Global styles
+│   ├── .env                        # Frontend environment variables
+│   ├── package.json                # Frontend dependencies and scripts
+├── .gitignore                      # Files to ignore in Git
+├── README.md                       # Project documentation
