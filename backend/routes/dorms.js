@@ -36,17 +36,72 @@ router.get("/", async (req, res) => {
     }
 });
 
-// GET dorm by ID (public)
-router.get("/:id", async (req, res) => {
-    try {
-        const dorm = await Dorm.findById(req.params.id);
-        if (!dorm) return res.status(404).json({ message: "Dorm not found" });
-        res.json(dorm);
-    } catch (error) {
-        res.status(500).json({ message: "Error retrieving dorm", error });
+
+// GET /api/dorms/university/:name
+router.get("/university/:name", async (req, res) => {
+  try {
+    const universityName = req.params.name;
+
+    // Case-insensitive exact match
+    const dorms = await Dorm.find({
+      university: { $regex: new RegExp(`^${universityName}$`, "i") }
+    });
+
+    if (dorms.length === 0) {
+      return res.status(404).json({ message: "No dorms found for this university" });
     }
+
+    res.json(dorms);
+  } catch (error) {
+    res.status(500).json({ message: "Error retrieving dorms", error });
+  }
 });
 
+
+//GET TOP RATED DORMS
+
+// GET /api/dorms/top-rated
+router.get("/top-rated", async (_req, res) => {
+  try {
+    const topDorms = await Dorm.find()
+      .sort({ ratingAverage: -1 })
+      .limit(3)
+      .populate('reviews')
+      .lean();
+
+    const formattedDorms = topDorms.map(dorm => {
+      const transformedPhotos = dorm.photos?.map(photo => 
+        photo.startsWith('http') ? photo : `${process.env.BASE_URL}/uploads/${photo}`
+      ) || ['/default-dorm.jpg'];
+      console.log("Transformed Photos for", dorm.name, ":", transformedPhotos);
+
+      let rating = 0;
+      if (typeof dorm.ratingAverage === 'number' && !isNaN(dorm.ratingAverage)) {
+        rating = dorm.ratingAverage;
+      }
+
+      return {
+        _id: dorm._id,
+        name: dorm.name,
+        university: dorm.university,
+        description: dorm.description,
+        ratingAverage: rating, // <-- send as number
+        reviewCount: dorm.reviews?.length || 0,
+        amenities: dorm.amenities || [],
+        photos: transformedPhotos
+      };
+    });
+
+    res.json(formattedDorms);
+  } catch (error) {
+    console.error('Error in /top-rated:', error);
+    res.status(500).json({ 
+      success: false,
+      error: "Failed to fetch top-rated dorms",
+      details: error.message 
+    });
+  }
+});
 // UPDATE dorm (protected)
 router.patch("/:id", auth,async (req, res) => {
     console.log('Request body:', req.body);

@@ -66,5 +66,15 @@ router.delete('/:id', auth, async (req, res) => {
     console.error(err.message);
     res.status(500).json({ error: 'Server error' });
   }
-})
+});
+
+// get all reviews by userID
+router.get('/user/:userId', async (req, res) => {
+  try {
+    const reviews = await Review.find({ user: req.params.userId }).populate('dorm');
+    res.json(reviews);
+  } catch (err) {
+    res.status(500).json({ message: 'Server error' });
+  }
+});
 module.exports = router;

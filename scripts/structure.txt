@@ -31,16 +31,18 @@ campusnest/
 │   │   │   ├── ReviewForm.js       # Form for submitting reviews
 │   │   │   ├── PhotoUpload.js      # Form for uploading photos
 │   │   │   └── Footer.js           # Footer for pages
-│   │   ├── pages/                  # Page components (routes)
-│   │   │   ├── Home.js             # Homepage (search, featured dorms) 
-│   │   │   ├── DormPage.js         # Single dorm details page
-│   │   │   ├── SearchPage.js       # Search results page
-│   │   │   ├── Login.js            # Login page
-│   │   │   ├── Register.js         # Registration page
-│   │   │   ├── About.js            # About page
-│   │   │   ├── Contact.js          # Contact page
-│   │   │   ├── Terms.js            # Terms of service page
-│   │   │   └── Privacy.js          # Privacy policy page
+│   │   ├── pages/
+│   │   ├── Home.js
+│   │   ├── DormDetails.js
+│   │   ├── Search.js
+│   │   ├── AddReview.js
+│   │   ├── Login.js
+│   │   ├── Register.js
+│   │   ├── About.js
+│   │   ├── Contact.js
+│   │   ├── Terms.js
+│   │   ├── Privacy.js
+│   │   └── NotFound.js
 │   │   ├── context/                # React context for state management
 │   │   │   └── AuthContext.js      # Manage user authentication state
 │   │   ├── App.js                  # Main app component (routing)
