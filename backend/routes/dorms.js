@@ -59,8 +59,8 @@ router.get("/university/:name", async (req, res) => {
 
 
 //GET TOP RATED DORMS
-
 // GET /api/dorms/top-rated
+
 router.get("/top-rated", async (_req, res) => {
   try {
     const topDorms = await Dorm.find()
@@ -70,10 +70,15 @@ router.get("/top-rated", async (_req, res) => {
       .lean();
 
     const formattedDorms = topDorms.map(dorm => {
-      const transformedPhotos = dorm.photos?.map(photo => 
-        photo.startsWith('http') ? photo : `${process.env.BASE_URL}/uploads/${photo}`
-      ) || ['/default-dorm.jpg'];
-      console.log("Transformed Photos for", dorm.name, ":", transformedPhotos);
+      const transformedPhotos = dorm.photos?.map(photo => {
+        // If photo already starts with /uploads/, use it directly with BASE_URL
+        if (photo.startsWith('/uploads/')) {
+          return `${process.env.BASE_URL}${photo}`;
+        }
+        // Otherwise, append to /uploads/
+        return `${process.env.BASE_URL}/uploads/${photo}`;
+      }) || ['/default-dorm.jpg'];
+      console.log("Transformed Photos for", dorm.university, ":", transformedPhotos);
 
       let rating = 0;
       if (typeof dorm.ratingAverage === 'number' && !isNaN(dorm.ratingAverage)) {
@@ -82,10 +87,9 @@ router.get("/top-rated", async (_req, res) => {
 
       return {
         _id: dorm._id,
-        name: dorm.name,
         university: dorm.university,
         description: dorm.description,
-        ratingAverage: rating, // <-- send as number
+        ratingAverage: rating,
         reviewCount: dorm.reviews?.length || 0,
         amenities: dorm.amenities || [],
         photos: transformedPhotos

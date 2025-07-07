@@ -4,11 +4,12 @@ const connectDB = require('./config/db');
 const cors = require('cors');
 const path = require('path'); 
 const multer = require("multer");
-const auth = require('./middleware/auth'); // Added import
+const auth = require('./middleware/auth');
 
 // Debug line to verify environment variables are loading
 console.log('MONGO_URI:', process.env.MONGO_URI);
 console.log('PORT:', process.env.PORT);
+console.log('BASE_URL:', process.env.BASE_URL); // Added to verify BASE_URL
 
 connectDB();
 
@@ -31,9 +32,9 @@ const upload = multer({
     fileFilter: (req, file, cb) => {
         const allowedTypes = ["image/jpeg", "image/png", "image/webp"];
         if (allowedTypes.includes(file.mimetype)) {
-            cb(null, true); // Accept file
+            cb(null, true);
         } else {
-            cb(new Error("Only .jpg, .jpeg, .png, .webp files are allowed"), false); // Reject file
+            cb(new Error("Only .jpg, .jpeg, .png, .webp files are allowed"), false);
         }
     }
 });
@@ -43,12 +44,9 @@ module.exports = { upload };
 // Routes
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/dorms', require('./routes/dorms')); 
-app.use('/api/reviews', require('./routes/reviews')); // Added with auth middleware
-app.use("/uploads", express.static("uploads")); // Allows public access to uploaded images
+app.use('/api/reviews', require('./routes/reviews')); 
+app.use('/uploads', express.static(path.join(__dirname, 'uploads'))); // Allows public access to uploaded images
 app.use('/api/users', require('./routes/users'));
-
-
-
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running in ${process.env.NODE_ENV || 'development'} mode on port ${PORT}`));
