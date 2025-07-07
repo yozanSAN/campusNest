@@ -26,12 +26,20 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: 'student'
   },
+
+  // ✅ New field for profile photo
+  userPhoto: {
+    type: String,
+    default: 'default.jpg'  // This file should exist in your /uploads folder
+  },
+
   createdAt: {
     type: Date,
     default: Date.now
   }
 });
 
+// Debug hooks (you can keep or remove them later)
 userSchema.pre('validate', function(next) {
   console.log('Before validation - Password:', this.password);
   next();
@@ -42,7 +50,6 @@ userSchema.post('validate', function(doc, next) {
   next();
 });
 
-// Add a pre-save hook to catch changes before the hashing hook
 userSchema.pre('save', function(next) {
   console.log('Pre-save (before hashing) - Password:', this.password);
   next();
