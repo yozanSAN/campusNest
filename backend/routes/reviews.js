@@ -6,29 +6,43 @@ const Review = require("../models/review");
 const auth = require("../middleware/auth");
 
 
-router.post("/", auth, async (req, res) => {
-    try {
-        const { rating, comment, createdAt, dormId } = req.body;
-        if (!rating || !comment || !createdAt || !dormId) {
-            return res.status(400).json({ error: "All fields are required" });
-        }
-        
-        const newReview = new Review({
-            rating,
-            comment,
-            createdAt,
-            dorm: dormId,
-            user: req.user._id
-        });
-        
-        await newReview.save();
-        await Review.calcAverageRating(dormId);
-        res.status(201).json({ message: "Review added successfully!", review: newReview });
-    } catch (error) {
-        console.error(error.message);
-        res.status(500).json({ error: "Error adding review" });
+router.post("/", async (req, res) => {
+  try {
+    console.log("Review Body:", req.body);
+    console.log("Authenticated User:", req.user);
+
+    const { rating, comment, createdAt, dormId } = req.body;
+
+    if (!rating || !comment || !createdAt || !dormId) {
+      return res.status(400).json({ error: "All fields are required" });
     }
+
+    const dorm = await Dorm.findById(dormId);
+    if (!dorm) {
+      return res.status(404).json({ error: "Dorm not found" });
+    }
+
+    const review = new Review({
+      rating,
+      comment,
+      createdAt,
+      dorm: dormId,
+      user: req.user._id
+    });
+
+    await review.save();
+
+    // Try skipping this temporarily
+    // await Review.calcAverageRating(dormId);
+
+    res.status(201).json({ message: "Review added successfully", review });
+
+  } catch (error) {
+    console.error("POST /reviews error:", error);
+    res.status(500).json({ error: "Error adding review" });
+  }
 });
+
 
 // GET reviews for a specific dorm
 router.get('/dorm/:dormId', async (req, res) => {

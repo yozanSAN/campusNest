@@ -1,28 +1,25 @@
-// backend/middleware/auth.js
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 
-
-// Simplified auth middleware
 const auth = async (req, res, next) => {
   try {
-    // 1. Get token from header
     const token = req.header('Authorization')?.replace('Bearer ', '');
-    if (!token) throw new Error('Please log in to access this');
+    if (!token) {
+      return res.status(401).json({ error: 'Access denied. No token provided.' });
+    }
 
-    // 2. Verify token
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET); // or 'your-secret-key'
+    const user = await User.findById(decoded.id || decoded._id).select('-password');
 
-    // 3. Attach user to request
-    req.user = await User.findById(decoded.userId);
-    if (!req.user) throw new Error('User not found');
+    if (!user) {
+      return res.status(401).json({ error: 'Invalid token. User not found.' });
+    }
 
+    req.user = user; // ✅ Attach full user object
     next();
   } catch (err) {
-    res.status(401).json({ 
-      success: false,
-      error: err.message || 'Invalid authentication' 
-    });
+    console.error("Auth error:", err.message);
+    res.status(401).json({ error: 'Invalid or expired token' });
   }
 };
 

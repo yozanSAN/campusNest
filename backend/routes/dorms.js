@@ -26,6 +26,8 @@ router.post("/", auth, upload.single("photo"), async (req, res) => {
     }
 });
 
+
+
 // GET all dorms (public)
 router.get("/", async (req, res) => {
     try {
@@ -106,6 +108,19 @@ router.get("/top-rated", async (_req, res) => {
     });
   }
 });
+// GET single dorm by ID (public)
+router.get("/:id", async (req, res) => {
+  try {
+    const dorm = await Dorm.findById(req.params.id);
+    if (!dorm) {
+      return res.status(404).json({ message: "Dorm not found" });
+    }
+    res.json(dorm);
+  } catch (error) {
+    res.status(500).json({ message: "Error retrieving dorm", error });
+  }
+});
+
 // UPDATE dorm (protected)
 router.patch("/:id", auth,async (req, res) => {
     console.log('Request body:', req.body);
@@ -158,5 +173,8 @@ router.post("/:id/photos", auth, upload.array("photos", 5), async (req, res) => 
         res.status(500).json({ message: "Error uploading photos", error });
     }
 });
+
+
+
 
 module.exports = router;
