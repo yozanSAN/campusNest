@@ -30,7 +30,7 @@ const userSchema = new mongoose.Schema({
   // ✅ New field for profile photo
   userPhoto: {
     type: String,
-    default: 'default.jpg'  // This file should exist in your /uploads folder
+    default: 'default-user-pfp'  // This file should exist in your /uploads folder
   },
 
   createdAt: {

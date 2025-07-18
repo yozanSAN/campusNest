@@ -32,7 +32,7 @@ const reviewSchema = new mongoose.Schema({
 });
 
 // Prevent duplicate reviews from same user
-reviewSchema.index({ dorm: 1, user: 1 }, { unique: true });
+// reviewSchema.index({ dorm: 1, user: 1 }, { unique: true });
 
 // Static method to calculate average ratings
 reviewSchema.statics.calcAverageRating = async function(dormId) {
@@ -55,12 +55,12 @@ reviewSchema.statics.calcAverageRating = async function(dormId) {
 
 // Update dorm ratings after saving a review
 reviewSchema.post('save', function() {
-  this.constructor.calcAverageRatings(this.dorm);
+  this.constructor.calcAverageRating(this.dorm);
 });
 
 // Update dorm ratings after deleting a review
 reviewSchema.post(/^findOneAndDelete/, async function(doc) {
-  if (doc) await doc.constructor.calcAverageRatings(doc.dorm);
+  if (doc) await doc.constructor.calcAverageRating(doc.dorm);
 });
 
 module.exports = mongoose.model('Review', reviewSchema);

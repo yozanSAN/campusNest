@@ -72,29 +72,14 @@ router.get("/top-rated", async (_req, res) => {
       .lean();
 
     const formattedDorms = topDorms.map(dorm => {
-      const transformedPhotos = dorm.photos?.map(photo => {
-        // If photo already starts with /uploads/, use it directly with BASE_URL
-        if (photo.startsWith('/uploads/')) {
-          return `${process.env.BASE_URL}${photo}`;
-        }
-        // Otherwise, append to /uploads/
-        return `${process.env.BASE_URL}/uploads/${photo}`;
-      }) || ['/default-dorm.jpg'];
-      console.log("Transformed Photos for", dorm.university, ":", transformedPhotos);
-
-      let rating = 0;
-      if (typeof dorm.ratingAverage === 'number' && !isNaN(dorm.ratingAverage)) {
-        rating = dorm.ratingAverage;
-      }
-
       return {
         _id: dorm._id,
         university: dorm.university,
         description: dorm.description,
-        ratingAverage: rating,
+        ratingAverage: typeof dorm.ratingAverage === 'number' && !isNaN(dorm.ratingAverage) ? dorm.ratingAverage : 0,
         reviewCount: dorm.reviews?.length || 0,
         amenities: dorm.amenities || [],
-        photos: transformedPhotos
+        photos: dorm.photos || ['/uploads/default-user-pfp']
       };
     });
 
