@@ -1,46 +1,89 @@
-# Getting Started with Create React App
+# CampusNest
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+CampusNest is a full-stack web application for discovering, reviewing, and ranking university dorms. Students can search for dorms, read and write reviews, and explore amenities to make informed housing decisions.
 
-## Available Scripts
+## Features
+- User registration and authentication
+- Search and filter dorms by university, location, and amenities
+- Add, edit, and delete reviews for dorms
+- Star ratings and review counts
+- User profile with editable info and profile photo
+- Admin features (optional)
+- Responsive, modern UI
 
-In the project directory, you can run:
+## Tech Stack
+- **Frontend:** React, CSS Modules
+- **Backend:** Node.js, Express
+- **Database:** MongoDB
+- **Authentication:** JWT
 
-### `npm start`
+## Getting Started
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Prerequisites
+- Node.js (v16+ recommended)
+- npm or yarn
+- MongoDB (local or Atlas)
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### Installation
+1. **Clone the repository:**
+   ```sh
+   git clone https://github.com/yozanSAN/campusNest.git
+   cd campusNest
+   ```
+2. **Install backend dependencies:**
+   ```sh
+   cd backend
+   npm install
+   ```
+3. **Install frontend dependencies:**
+   ```sh
+   cd ../frontend
+   npm install
+   ```
 
-### `npm test`
+### Environment Variables
+Create a `.env` file in the `backend/` directory with the following:
+```
+MONGO_URI=your_mongodb_connection_string
+PORT=5000
+JWT_SECRET=your_jwt_secret
+BASE_URL=http://localhost:5000
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Running the App
+1. **Start the backend:**
+   ```sh
+   cd backend
+   npm run dev
+   ```
+2. **Start the frontend:**
+   ```sh
+   cd ../frontend
+   npm start
+   ```
+3. Visit [http://localhost:3000](http://localhost:3000) in your browser.
 
-### `npm run build`
+## Usage
+- Register a new account or log in.
+- Search for dorms, view details, and read reviews.
+- Add your own reviews and rate dorms.
+- Edit your profile and upload a profile photo.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Seeding the Database
+- You can use the provided scripts in the `scripts/` folder to seed dorms and reviews for testing.
+- Example: `mongosh campusnest scripts/seedDormReviews.js`
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Contributing
+Pull requests are welcome! For major changes, please open an issue first to discuss what you would like to change.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+1. Fork the repo
+2. Create your feature branch (`git checkout -b feature/YourFeature`)
+3. Commit your changes (`git commit -m 'Add some feature'`)
+4. Push to the branch (`git push origin feature/YourFeature`)
+5. Open a pull request
 
-### `npm run eject`
+## License
+[MIT](LICENSE)
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+---
+**CampusNest** — Helping students find their perfect college dorm through honest reviews and detailed information.
