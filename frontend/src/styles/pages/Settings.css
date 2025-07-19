@@ -1,0 +1,71 @@
+/* Settings Page Styles */
+.settings-page {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 32px 24px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(59, 130, 246, 0.07);
+}
+
+.settings-page h2 {
+  font-size: 2.2rem;
+  color: #2563eb;
+  margin-bottom: 32px;
+  text-align: center;
+}
+
+.settings-page section {
+  margin-bottom: 32px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.settings-page section:last-child {
+  border-bottom: none;
+}
+
+.settings-page h3 {
+  font-size: 1.2rem;
+  color: #3b82f6;
+  margin-bottom: 12px;
+}
+
+.settings-page p,
+.settings-page label {
+  font-size: 1rem;
+  color: #333;
+}
+
+.settings-page button {
+  background: #3b82f6;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 18px;
+  font-size: 1rem;
+  margin-top: 8px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.settings-page button:hover {
+  background: #2563eb;
+}
+
+.settings-page button[style*='color: red'] {
+  background: #fff;
+  color: #ef4444;
+  border: 1px solid #ef4444;
+}
+
+.settings-page button[style*='color: red']:hover {
+  background: #ef4444;
+  color: #fff;
+}
+
+.settings-page .coming-soon {
+  margin-top: 40px;
+  color: #888;
+  text-align: center;
+}
