@@ -43,7 +43,7 @@ module.exports = { upload };
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/dorms', require('./routes/dorms')); 
 app.use('/api/reviews', require('./routes/reviews')); 
-app.use('/uploads', express.static(path.join(__dirname, 'uploads'))); // Allows public access to uploaded images
+app.use('/uploads', express.static(path.join(__dirname, 'uploads'))); 
 app.use('/api/users', require('./routes/users'));
 
 const PORT = process.env.PORT || 5000;
