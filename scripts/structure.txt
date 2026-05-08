@@ -35,7 +35,7 @@ campusnest/
 │   │   ├── Home.js
 │   │   ├── DormDetails.js
 │   │   ├── Search.js
-│   │   ├── AddReview.js
+│   │   ├
 │   │   ├── Login.js
 │   │   ├── Register.js
 │   │   ├── About.js
