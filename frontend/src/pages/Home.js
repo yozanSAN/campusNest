@@ -14,7 +14,7 @@ const Home = ({ user }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/dorms/top-rated")
+    fetch(`${process.env.REACT_APP_BASE_URL}/api/dorms/top-rated`)
       .then(res => res.json())
       .then(data => {
         setTopDorms(data);

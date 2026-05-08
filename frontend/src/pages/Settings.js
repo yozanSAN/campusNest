@@ -12,13 +12,15 @@ const Settings = () => {
   const [saving, setSaving] = useState(false);
   const [photoUploading, setPhotoUploading] = useState(false);
   const [error, setError] = useState('');
+
+  const base = process.env.REACT_APP_BASE_URL
   
   useEffect(() => {
     if (!currentUser) return;
     const fetchUser = async () => {
       setLoading(true);
       try {
-        const res = await fetch(`/api/users/${currentUser._id}`);
+        const res = await fetch(`${base}/api/users/${currentUser._id}`);
         if (!res.ok) throw new Error('Failed to fetch user info');
         const data = await res.json();
         setName(data.name || '');
@@ -31,7 +33,7 @@ const Settings = () => {
       }
     };
     fetchUser();
-  }, [currentUser]);
+  }, [currentUser,base]);
 
   const handleSave = async () => {
     setSaving(true);

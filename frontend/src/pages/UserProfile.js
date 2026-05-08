@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { useParams, Link, useLocation } from 'react-router-dom';
-import { Home, Search, Bell, MessageCircle, User } from 'lucide-react';
-import '../styles/pages/UserProfile.css';
+import React, { useEffect, useState } from "react";
+import { useParams, Link, useLocation } from "react-router-dom";
+import { Home, Search, Bell, MessageCircle, User } from "lucide-react";
+import "../styles/pages/UserProfile.css";
 
 const UserProfile = () => {
   const { id } = useParams();
@@ -13,25 +13,31 @@ const UserProfile = () => {
   const [updating, setUpdating] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
+  const base = process.env.REACT_APP_BASE_URL;
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const userRes = await fetch(`/api/users/${id}`);
-        if (!userRes.ok) throw new Error(`HTTP error! status: ${userRes.status}`);
+        
+
+        const userRes = await fetch(`${base}/api/users/${id}`);
+        if (!userRes.ok)
+          throw new Error(`HTTP error! status: ${userRes.status}`);
         const user = await userRes.json();
         setUserData(user);
 
-        const reviewRes = await fetch(`/api/reviews/user/${id}`);
-        if (!reviewRes.ok) throw new Error(`HTTP error! status: ${reviewRes.status}`);
+        const reviewRes = await fetch(`${base}/api/reviews/user/${id}`);
+        if (!reviewRes.ok)
+          throw new Error(`HTTP error! status: ${reviewRes.status}`);
         const reviews = await reviewRes.json();
         setUserReviews(reviews);
       } catch (err) {
-        console.error('Fetch error:', err);
+        console.error("Fetch error:", err);
         setError(err.message);
       }
     };
     fetchData();
-  }, [id]);
+  }, [id,base]);
 
   // Remove editingName, newName, handleNameChange, and related UI
   // In the user-name-container, only display the user's name as static text
@@ -40,12 +46,12 @@ const UserProfile = () => {
   const handlePhotoDelete = async () => {
     setUpdating(true);
     try {
-      const res = await fetch(`/api/users/${id}/photo`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ photo: 'default-user-pfp' })
+      const res = await fetch(`${base}/api/users/${id}/photo`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ photo: "default-user-pfp" }),
       });
-      if (!res.ok) throw new Error('Failed to delete photo');
+      if (!res.ok) throw new Error("Failed to delete photo");
       const updatedUser = await res.json();
       setUserData(updatedUser);
       setShowPhotoOptions(false);
@@ -60,15 +66,15 @@ const UserProfile = () => {
   // Close photo options when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (showPhotoOptions && !event.target.closest('.photo-container')) {
+      if (showPhotoOptions && !event.target.closest(".photo-container")) {
         setShowPhotoOptions(false);
       }
-      if (showDeleteConfirm && !event.target.closest('.delete-confirmation')) {
+      if (showDeleteConfirm && !event.target.closest(".delete-confirmation")) {
         setShowDeleteConfirm(false);
       }
     };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [showPhotoOptions, showDeleteConfirm]);
 
   if (error) return <div className="error-container">Error: {error}</div>;
@@ -84,21 +90,24 @@ const UserProfile = () => {
               <div className="photo-container">
                 <img
                   src={
-                    userData.userPhoto?.startsWith('http')
+                    userData.userPhoto?.startsWith("http")
                       ? userData.userPhoto
                       : userData.userPhoto
-                      ? `http://localhost:5000/uploads/${userData.userPhoto}`
-                      : 'http://localhost:5000/uploads/default-user-pfp'
+                        ? `${base}/uploads/${userData.userPhoto}`
+                        : `${base}/uploads/default-user-pfp`
                   }
                   alt="Profile"
-                  onError={(e) => { e.target.src = 'http://localhost:5000/uploads/default-user-pfp'; }}
+                  onError={(e) => {
+                    e.target.src =
+                      `${base}/uploads/default-user-pfp`;
+                  }}
                 />
               </div>
             </div>
             <div className="user-name-container">
               <div className="user-name-display">
                 <span className="user-name">
-                  {userData.name || 'Unknown User'}
+                  {userData.name || "Unknown User"}
                 </span>
               </div>
             </div>
@@ -106,23 +115,38 @@ const UserProfile = () => {
         </div>
 
         <nav className="sidebar-nav">
-          <Link to="/" className={`nav-item ${location.pathname === '/' ? 'active' : ''}`}>
+          <Link
+            to="/"
+            className={`nav-item ${location.pathname === "/" ? "active" : ""}`}
+          >
             <Home className="nav-icon" />
             <span>Home</span>
           </Link>
-          <Link to="/search" className={`nav-item ${location.pathname === '/search' ? 'active' : ''}`}>
+          <Link
+            to="/search"
+            className={`nav-item ${location.pathname === "/search" ? "active" : ""}`}
+          >
             <Search className="nav-icon" />
             <span>Explore</span>
           </Link>
-          <Link to="/notifications" className={`nav-item ${location.pathname === '/notifications' ? 'active' : ''}`}>
+          <Link
+            to="/notifications"
+            className={`nav-item ${location.pathname === "/notifications" ? "active" : ""}`}
+          >
             <Bell className="nav-icon" />
             <span>Notifications</span>
           </Link>
-          <Link to="/messages" className={`nav-item ${location.pathname === '/messages' ? 'active' : ''}`}>
+          <Link
+            to="/messages"
+            className={`nav-item ${location.pathname === "/messages" ? "active" : ""}`}
+          >
             <MessageCircle className="nav-icon" />
             <span>Messages</span>
           </Link>
-          <Link to={`/profile/${id}`} className={`nav-item ${location.pathname.includes('/profile') ? 'active' : ''}`}>
+          <Link
+            to={`/profile/${id}`}
+            className={`nav-item ${location.pathname.includes("/profile") ? "active" : ""}`}
+          >
             <User className="nav-icon" />
             <span>Profile</span>
           </Link>
@@ -140,25 +164,33 @@ const UserProfile = () => {
               <div className="photo-container">
                 <img
                   src={
-                    userData.userPhoto?.startsWith('http')
+                    userData.userPhoto?.startsWith("http")
                       ? userData.userPhoto
                       : userData.userPhoto
-                      ? `http://localhost:5000/uploads/${userData.userPhoto}`
-                      : 'http://localhost:5000/uploads/default-user-pfp'
+                        ? `${base}/uploads/${userData.userPhoto}`
+                        : `${base}/uploads/default-user-pfp`
                   }
                   alt="Profile"
-                  onError={(e) => { e.target.src = 'http://localhost:5000/uploads/default-user-pfp'; }}
+                  onError={(e) => {
+                    e.target.src =
+                      `${base}/uploads/default-user-pfp`;
+                  }}
                 />
               </div>
             </div>
             <div className="profile-info">
               <div className="profile-name-container">
                 <div className="profile-name-display">
-                  <h2 className="profile-name">{userData.name || 'Unknown User'}</h2>
+                  <h2 className="profile-name">
+                    {userData.name || "Unknown User"}
+                  </h2>
                 </div>
               </div>
               <p className="profile-joined">
-                Joined in {userData.createdAt ? new Date(userData.createdAt).getFullYear() : '2021'}
+                Joined in{" "}
+                {userData.createdAt
+                  ? new Date(userData.createdAt).getFullYear()
+                  : "2021"}
               </p>
             </div>
           </div>
@@ -170,28 +202,44 @@ const UserProfile = () => {
             <div className="reviews-list">
               {userReviews.length > 0 ? (
                 userReviews.map((review) => (
-                  <Link to={review.dorm?._id ? `/dorms/${review.dorm._id}` : '#'} key={review._id} className="review-item-link">
+                  <Link
+                    to={review.dorm?._id ? `/dorms/${review.dorm._id}` : "#"}
+                    key={review._id}
+                    className="review-item-link"
+                  >
                     <div className="review-item">
                       <div className="review-image">
                         <img
                           src={
-                            review.dorm && review.dorm.photos && review.dorm.photos.length > 0
-                              ? `/uploads/${review.dorm.photos[0].replace('/uploads/', '')}`
-                              : 'https://via.placeholder.com/60x60?text=Dorm'
+                            review.dorm &&
+                            review.dorm.photos &&
+                            review.dorm.photos.length > 0
+                              ? `/uploads/${review.dorm.photos[0].replace("/uploads/", "")}`
+                              : "https://via.placeholder.com/60x60?text=Dorm"
                           }
-                          alt={review.dorm?.university || review.dorm?.name || 'Dorm'}
+                          alt={
+                            review.dorm?.university ||
+                            review.dorm?.name ||
+                            "Dorm"
+                          }
                         />
                       </div>
                       <div className="review-content">
                         <h4 className="review-dorm-name">
-                          {review.dorm?.university || review.dorm?.name || 'Unknown Residence Hall'}
+                          {review.dorm?.university ||
+                            review.dorm?.name ||
+                            "Unknown Residence Hall"}
                         </h4>
                         <p className="review-date">
-                          Reviewed on {new Date(review.createdAt).toLocaleDateString('en-US', {
-                            year: 'numeric',
-                            month: 'short',
-                            day: 'numeric'
-                          })}
+                          Reviewed on{" "}
+                          {new Date(review.createdAt).toLocaleDateString(
+                            "en-US",
+                            {
+                              year: "numeric",
+                              month: "short",
+                              day: "numeric",
+                            },
+                          )}
                         </p>
                       </div>
                     </div>
@@ -212,16 +260,19 @@ const UserProfile = () => {
         <div className="modal-overlay">
           <div className="delete-confirmation">
             <h3>Delete Profile Photo</h3>
-            <p>Are you sure you want to delete your profile photo? This will reset it to the default image.</p>
+            <p>
+              Are you sure you want to delete your profile photo? This will
+              reset it to the default image.
+            </p>
             <div className="confirmation-buttons">
-              <button 
+              <button
                 className="confirm-delete-btn"
                 onClick={handlePhotoDelete}
                 disabled={updating}
               >
-                {updating ? 'Deleting...' : 'Delete'}
+                {updating ? "Deleting..." : "Delete"}
               </button>
-              <button 
+              <button
                 className="cancel-delete-btn"
                 onClick={() => setShowDeleteConfirm(false)}
                 disabled={updating}

@@ -13,12 +13,11 @@ const DormDetails = () => {
   const [newReview, setNewReview] = useState({ rating: 5, comment: '' });
   const [user, setUser] = useState(null);
 
-  const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
 
   useEffect(() => {
     const fetchDormDetails = async () => {
       try {
-        const response = await fetch(`${API_BASE_URL}/dorms/${dormId}`); // ✅ direct fetch
+        const response = await fetch(`${process.env.REACT_APP_BASE_URL}/dorms/${dormId}`); 
         if (!response.ok) throw new Error('Failed to fetch dorm details');
         const data = await response.json();
         setDorm(data);
@@ -31,7 +30,7 @@ const DormDetails = () => {
 
     const fetchReviews = async () => {
       try {
-        const response = await fetch(`${API_BASE_URL}/reviews/dorm/${dormId}`);
+        const response = await fetch(`${process.env.REACT_APP_BASE_URL}/reviews/dorm/${dormId}`);
         if (!response.ok) throw new Error('Failed to fetch reviews');
         const data = await response.json();
         setReviews(data);
@@ -51,7 +50,7 @@ const DormDetails = () => {
     fetchDormDetails();
     fetchReviews();
     checkAuthStatus();
-  }, [dormId, API_BASE_URL]);
+  }, [dormId]);
 
 const handleReviewSubmit = async (e) => {
   e.preventDefault();
@@ -65,7 +64,7 @@ const handleReviewSubmit = async (e) => {
     if (!token) throw new Error('No authentication token found');
 
     console.log('Review data:', { ...newReview, dormId }); // Debug data
-    const response = await fetch(`${API_BASE_URL}/reviews`, {
+    const response = await fetch(`${process.env.REACT_APP_BASE_URL}/reviews`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -88,8 +87,8 @@ const handleReviewSubmit = async (e) => {
     setNewReview({ rating: 5, review: '' });
 
     const [reviewData, dormData] = await Promise.all([
-      fetch(`${API_BASE_URL}/reviews/dorm/${dormId}`).then(res => res.json()),
-      fetch(`${API_BASE_URL}/dorms/${dormId}`).then(res => res.json())
+      fetch(`${process.env.REACT_APP_BASE_URL}/reviews/dorm/${dormId}`).then(res => res.json()),
+      fetch(`${process.env.REACT_APP_BASE_URL}/dorms/${dormId}`).then(res => res.json())
     ]);
 
     setReviews(reviewData);
@@ -122,7 +121,7 @@ const handleReviewSubmit = async (e) => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`${API_BASE_URL}/reviews/${reviewId}`, {
+      const response = await fetch(`${process.env.REACT_APP_BASE_URL}/reviews/${reviewId}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -132,8 +131,8 @@ const handleReviewSubmit = async (e) => {
       if (!response.ok) throw new Error('Failed to delete review');
 
       const [reviewData, dormData] = await Promise.all([
-        fetch(`${API_BASE_URL}/reviews/dorm/${dormId}`).then(res => res.json()),
-        fetch(`${API_BASE_URL}/dorms/${dormId}`).then(res => res.json())
+        fetch(`${process.env.REACT_APP_BASE_URL}/reviews/dorm/${dormId}`).then(res => res.json()),
+        fetch(`${process.env.REACT_APP_BASE_URL}/dorms/${dormId}`).then(res => res.json())
       ]);
 
       setReviews(reviewData);
@@ -148,7 +147,7 @@ const handleReviewSubmit = async (e) => {
   const getImageUrl = (photo) => {
     if (!photo) return '/default-dorm.jpg';
     if (photo.startsWith('http')) return photo;
-    return `${API_BASE_URL.replace('/api', '')}${photo}`;
+    return `${process.env.REACT_APP_BASE_URL.replace('/api', '')}${photo}`;
   };
 
   const nextImage = () => {

@@ -14,7 +14,7 @@ const Search = () => {
     amenities: []
   });
 
-  const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
+  const API_BASE_URL = process.env.REACT_APP_BASE_URL || 'http://localhost:5000/api';
 
   // ✅ Fetch all dorms
   const fetchAllDorms = useCallback(async () => {
@@ -92,7 +92,7 @@ const Search = () => {
   const getImageUrl = (photo) => {
     if (!photo) return '/default-dorm.jpg';
     if (photo.startsWith('http')) return photo;
-    return `${process.env.REACT_APP_API_URL || 'http://localhost:5000'}${photo}`;
+    return `${API_BASE_URL || 'http://localhost:5000'}${photo}`;
   };
 
   const commonAmenities = ['WiFi', 'Laundry', 'Gym', 'Kitchen', 'Parking', 'Study Room'];

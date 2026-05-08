@@ -1,40 +1,41 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import '../styles/pages/Register.css'
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import "../styles/pages/Register.css";
 
-const Register = ({ setUser }) => { // Accept setUser prop
+const Register = ({ setUser }) => {
+  // Accept setUser prop
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-    university: ''
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    university: "",
   });
 
   const universities = [
-    'Select University',
-    'Université Mohammed V de Rabat',
-    'Université Cadi Ayyad (Marrakech)',
-    'Université Hassan II de Casablanca',
-    'Université Abdelmalek Essaâdi (Tétouan)',
-    'Université Ibn Tofail (Kénitra)',
-    'Université Sidi Mohamed Ben Abdellah (Fès)',
-    'Université Chouaib Doukkali (El Jadida)',
-    'Université Ibn Zohr (Agadir)',
-    'Université Moulay Ismail (Meknès)',
-    'Université Sultan Moulay Slimane (Beni Mellal)',
+    "Select University",
+    "Université Mohammed V de Rabat",
+    "Université Cadi Ayyad (Marrakech)",
+    "Université Hassan II de Casablanca",
+    "Université Abdelmalek Essaâdi (Tétouan)",
+    "Université Ibn Tofail (Kénitra)",
+    "Université Sidi Mohamed Ben Abdellah (Fès)",
+    "Université Chouaib Doukkali (El Jadida)",
+    "Université Ibn Zohr (Agadir)",
+    "Université Moulay Ismail (Meknès)",
+    "Université Sultan Moulay Slimane (Beni Mellal)",
   ];
 
-  const [passwordError, setPasswordError] = useState('');
+  const [passwordError, setPasswordError] = useState("");
 
   const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
     if (e.target.name === "password" || e.target.name === "confirmPassword") {
-      setPasswordError('');
+      setPasswordError("");
     }
   };
 
@@ -47,16 +48,19 @@ const Register = ({ setUser }) => { // Accept setUser prop
     }
 
     try {
-      const response = await fetch("http://localhost:5000/api/auth/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          password: formData.password,
-          university: formData.university
-        })
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_BASE_URL}/api/auth/register`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: formData.name,
+            email: formData.email,
+            password: formData.password,
+            university: formData.university,
+          }),
+        },
+      );
 
       const data = await response.json();
 
@@ -64,11 +68,11 @@ const Register = ({ setUser }) => { // Accept setUser prop
         // Save user info and token
         localStorage.setItem("user", JSON.stringify(data.user));
         localStorage.setItem("token", data.token);
-        
+
         // Update global user state
         setUser(data.user);
-        
-        navigate('/');
+
+        navigate("/");
       } else {
         alert(data.message || "Registration failed");
       }
@@ -81,7 +85,7 @@ const Register = ({ setUser }) => { // Accept setUser prop
     <div className="register-container">
       <form onSubmit={handleSubmit} className="register-form">
         <h2>Create Account</h2>
-        
+
         <div className="form-group">
           <input
             type="text"
@@ -151,8 +155,7 @@ const Register = ({ setUser }) => { // Accept setUser prop
         </button>
 
         <p className="terms">
-          By registering, you agree to our{' '}
-          <Link to="/terms">Terms</Link> and{' '}
+          By registering, you agree to our <Link to="/terms">Terms</Link> and{" "}
           <Link to="/privacy">Privacy Policy</Link>
         </p>
 
