@@ -6,10 +6,7 @@ const path = require('path');
 const multer = require("multer");
 const auth = require('./middleware/auth');
 
-// Debug line to verify environment variables are loading
-console.log('MONGO_URI:', process.env.MONGO_URI);
-console.log('PORT:', process.env.PORT);
-console.log('BASE_URL:', process.env.BASE_URL); // Added to verify BASE_URL
+
 
 connectDB();
 
