@@ -1,32 +1,32 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect, useCallback } from "react";
+import { Link } from "react-router-dom";
 import "../styles/pages/Search.css";
 
 const Search = () => {
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [dorms, setDorms] = useState([]);
   const [filteredDorms, setFilteredDorms] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [filters, setFilters] = useState({
-    university: '',
+    university: "",
     minRating: 0,
-    amenities: []
+    amenities: [],
   });
 
-  const API_BASE_URL = process.env.REACT_APP_BASE_URL || 'http://localhost:5000/api';
+  const API_BASE_URL = process.env.REACT_APP_BASE_URL;
 
   // ✅ Fetch all dorms
   const fetchAllDorms = useCallback(async () => {
     setLoading(true);
     try {
-      const response = await fetch(`${API_BASE_URL}/dorms`);
-      if (!response.ok) throw new Error('Failed to fetch dorms');
+      const response = await fetch(`${API_BASE_URL}/api/dorms`);
+      if (!response.ok) throw new Error("Failed to fetch dorms");
       const data = await response.json();
       setDorms(data);
       setFilteredDorms(data);
     } catch (err) {
-      setError('Error fetching dorms: ' + err.message);
+      setError("Error fetching dorms: " + err.message);
     } finally {
       setLoading(false);
     }
@@ -42,22 +42,24 @@ const Search = () => {
     let filtered = dorms;
 
     if (searchTerm) {
-      filtered = filtered.filter(dorm =>
-        dorm.university.toLowerCase().includes(searchTerm.toLowerCase())
+      filtered = filtered.filter((dorm) =>
+        dorm.university.toLowerCase().includes(searchTerm.toLowerCase()),
       );
     }
 
     if (filters.minRating > 0) {
-      filtered = filtered.filter(dorm => dorm.ratingAverage >= filters.minRating);
+      filtered = filtered.filter(
+        (dorm) => dorm.ratingAverage >= filters.minRating,
+      );
     }
 
     if (filters.amenities.length > 0) {
-      filtered = filtered.filter(dorm =>
-        filters.amenities.every(amenity =>
-          dorm.amenities?.some(dormAmenity =>
-            dormAmenity.toLowerCase().includes(amenity.toLowerCase())
-          )
-        )
+      filtered = filtered.filter((dorm) =>
+        filters.amenities.every((amenity) =>
+          dorm.amenities?.some((dormAmenity) =>
+            dormAmenity.toLowerCase().includes(amenity.toLowerCase()),
+          ),
+        ),
       );
     }
 
@@ -71,31 +73,38 @@ const Search = () => {
   };
 
   const handleAmenityFilter = (amenity) => {
-    setFilters(prev => ({
+    setFilters((prev) => ({
       ...prev,
       amenities: prev.amenities.includes(amenity)
-        ? prev.amenities.filter(a => a !== amenity)
-        : [...prev.amenities, amenity]
+        ? prev.amenities.filter((a) => a !== amenity)
+        : [...prev.amenities, amenity],
     }));
   };
 
   const resetFilters = () => {
-    setSearchTerm('');
+    setSearchTerm("");
     setFilters({
-      university: '',
+      university: "",
       minRating: 0,
-      amenities: []
+      amenities: [],
     });
     setFilteredDorms(dorms);
   };
 
   const getImageUrl = (photo) => {
-    if (!photo) return '/default-dorm.jpg';
-    if (photo.startsWith('http')) return photo;
-    return `${API_BASE_URL || 'http://localhost:5000'}${photo}`;
+    if (!photo) return "/default-dorm.jpg";
+    if (photo.startsWith("http")) return photo;
+    return `${API_BASE_URL}${photo}`;
   };
 
-  const commonAmenities = ['WiFi', 'Laundry', 'Gym', 'Kitchen', 'Parking', 'Study Room'];
+  const commonAmenities = [
+    "WiFi",
+    "Laundry",
+    "Gym",
+    "Kitchen",
+    "Parking",
+    "Study Room",
+  ];
 
   return (
     <div className="search-container">
@@ -129,7 +138,12 @@ const Search = () => {
           <label>Minimum Rating:</label>
           <select
             value={filters.minRating}
-            onChange={(e) => setFilters(prev => ({ ...prev, minRating: Number(e.target.value) }))}
+            onChange={(e) =>
+              setFilters((prev) => ({
+                ...prev,
+                minRating: Number(e.target.value),
+              }))
+            }
           >
             <option value={0}>Any Rating</option>
             <option value={1}>1+ Stars</option>
@@ -144,7 +158,7 @@ const Search = () => {
         <div className="filter-group">
           <label>Amenities:</label>
           <div className="amenities-filter">
-            {commonAmenities.map(amenity => (
+            {commonAmenities.map((amenity) => (
               <label key={amenity} className="amenity-checkbox">
                 <input
                   type="checkbox"
@@ -181,14 +195,14 @@ const Search = () => {
         )}
 
         <div className="dorms-grid">
-          {filteredDorms.map(dorm => (
+          {filteredDorms.map((dorm) => (
             <div key={dorm._id} className="dorm-card">
               <div className="dorm-image">
                 <img
                   src={getImageUrl(dorm.photos?.[0])}
                   alt={dorm.university}
                   onError={(e) => {
-                    e.target.src = '/default-dorm.jpg';
+                    e.target.src = "/default-dorm.jpg";
                   }}
                 />
               </div>
@@ -199,27 +213,31 @@ const Search = () => {
 
                 <div className="dorm-rating">
                   <span className="stars">
-                    {'★'.repeat(Math.floor(dorm.ratingAverage || 0))}
-                    {'☆'.repeat(5 - Math.floor(dorm.ratingAverage || 0))}
+                    {"★".repeat(Math.floor(dorm.ratingAverage || 0))}
+                    {"☆".repeat(5 - Math.floor(dorm.ratingAverage || 0))}
                   </span>
                   <span className="rating-text">
-                    {dorm.ratingAverage?.toFixed(1) || 'No rating'} ({dorm.ratingQuantity || 0} reviews)
+                    {dorm.ratingAverage?.toFixed(1) || "No rating"} (
+                    {dorm.ratingQuantity || 0} reviews)
                   </span>
                 </div>
 
                 <div className="dorm-amenities">
                   {dorm.amenities?.slice(0, 3).map((amenity, index) => (
-                    <span key={index} className="amenity-tag">{amenity}</span>
+                    <span key={index} className="amenity-tag">
+                      {amenity}
+                    </span>
                   ))}
                   {dorm.amenities?.length > 3 && (
-                    <span className="amenity-tag">+{dorm.amenities.length - 3} more</span>
+                    <span className="amenity-tag">
+                      +{dorm.amenities.length - 3} more
+                    </span>
                   )}
                 </div>
 
                 <Link to={`/dorms/${dorm._id}`} className="view-details-btn">
                   View Details
                 </Link>
-                
               </div>
             </div>
           ))}
