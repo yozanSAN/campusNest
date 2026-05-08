@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "../styles/pages/Privacy.css";
 
-const illustrationUrl = "https://i.pinimg.com/736x/fe/2e/95/fe2e9592c69acbee22bc2561068fc39d.jpg"; // Replace with your own if desired
+const illustrationUrl = "https://i.pinimg.com/736x/fe/2e/95/fe2e9592c69acbee22bc2561068fc39d.jpg";
 
 const Privacy = () => (
   <div className="privacy-bg">

@@ -10,7 +10,6 @@ import Privacy from './pages/Privacy';
 import UserProfile from './pages/UserProfile';
 import Search from './pages/Search';
 import DormDetails from './pages/DormDetails';
-import AddReview from './pages/AddReview';
 import NotFound from './pages/NotFound';
 import Navbar from './components/Navbar';
 import Messages from './pages/Messages';
@@ -42,10 +41,6 @@ function AppContent({ user, handleLogout, setUser }) {
         {/* <Route path="/dorm/:id" element={<DormDetails />} /> */}
         <Route path="/" element={<Home user={user} />} />
         <Route path="/dorms/:dormId" element={<DormDetails />} />
-        <Route
-          path="/add-review/:dormId"
-          element={user ? <AddReview user={user} /> : <Navigate to="/login" />}
-        />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>
