@@ -18,8 +18,6 @@ const UserProfile = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        
-
         const userRes = await fetch(`${base}/api/users/${id}`);
         if (!userRes.ok)
           throw new Error(`HTTP error! status: ${userRes.status}`);
@@ -38,11 +36,6 @@ const UserProfile = () => {
     };
     fetchData();
   }, [id,base]);
-
-  // Remove editingName, newName, handleNameChange, and related UI
-  // In the user-name-container, only display the user's name as static text
-  // Remove handlePhotoUpload definition entirely
-
   const handlePhotoDelete = async () => {
     setUpdating(true);
     try {
