@@ -325,9 +325,10 @@
 
 /* Stats Section */
 .stats-section {
-  background: #f5f8fd;
-  width: 100%;
-  padding: 4rem 0;
+    background: white;
+    border-top: 1px solid #e5e7eb;
+    border-bottom: 1px solid #e5e7eb;
+    padding: 5rem 0;
 }
 
 .stats-section .container {
@@ -352,101 +353,4 @@
 
 .stat-label {
   color: #6b7280;
-}
-
-/* Footer */
-.footer {
-  background: #1f2937;
-  color: white;
-  padding: 3rem 0 1rem;
-  margin-top: auto;
-}
-
-.footer-content {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 2rem;
-  margin-bottom: 2rem;
-}
-
-.footer-title {
-  font-size: 1.125rem;
-  font-weight: bold;
-  margin-bottom: 1rem;
-}
-
-.footer-description {
-  color: #9ca3af;
-  font-size: 0.875rem;
-  line-height: 1.5;
-}
-
-.footer-links {
-  list-style: none;
-}
-
-.footer-links li {
-  margin-bottom: 0.5rem;
-}
-
-.footer-links a {
-  color: #9ca3af;
-  text-decoration: none;
-  font-size: 0.875rem;
-  transition: color 0.2s;
-}
-
-.footer-links a:hover {
-  color: white;
-}
-
-.footer-bottom {
-  border-top: 1px solid #374151;
-  padding-top: 2rem;
-  text-align: center;
-  color: #9ca3af;
-  font-size: 0.875rem;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .header .container {
-    flex-direction: column;
-    gap: 1rem;
-  }
-
-  .nav-links {
-    gap: 1rem;
-  }
-
-  .hero-title {
-    font-size: 2rem;
-  }
-
-  .search-box {
-    flex-direction: column;
-  }
-
-  .search-button {
-    border-radius: 0 0 0.375rem 0.375rem;
-  }
-
-  .search-input {
-    border-right: 1px solid #d1d5db;
-    border-radius: 0.375rem 0.375rem 0 0;
-  }
-
-  .dorms-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .stats-grid {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-  }
-
-  .footer-content {
-    grid-template-columns: 1fr;
-    text-align: center;
-  }
 }
