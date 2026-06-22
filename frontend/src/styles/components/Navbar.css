@@ -1,7 +1,6 @@
 /* Navbar.css */
 .navbar {
-  background-color: #ffffff !important; /* Changed to white as requested */
-  /* box-shadow: 0 4px 5px rgba(0, 0, 0, 0.1); */ /* Removed box-shadow to eliminate black line */
+  background-color: #ffffff !important;
   position: sticky;
   top: 0;
   z-index: 1000;
@@ -9,18 +8,18 @@
 }
 
 .navbar-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 1.5rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 52px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;  
+  padding: 0 2rem; 
 }
 
 /* Logo Section */
 .navbar-logo {
-  flex: 0 0 auto; /* Fixed width, no growth */
+  flex: 0 0 auto; 
   display: flex;
   align-items: center;
 }
@@ -40,36 +39,26 @@
 
 /* Navigation Links */
 .navbar-links {
-  flex: 1; /* Allows growth to center content */
   display: flex;
   align-items: center;
-  justify-content: center; /* Centers the links */
-  gap: 2rem;
-  margin-left: 25rem;
-  margin-right: 25rem;
-  background-color: transparent !important;
- 
-  /* Adds some space to balance */
+  gap: 2rem; 
+  margin: 0 auto;
+  background-color: white;
 }
 
 .nav-link {
-  color: black !important;
-  text-decoration: none;
-  font-weight: 500;
-  padding: 0.5rem 1rem;
-  border-radius: 0.375rem;
-  transition: all 0.3s ease;
-  position: relative;
+    color: #374151 !important;
 }
 
 .nav-link:hover {
-  color: whitesmoke !important;
-  background-color: #f3f4f6;
+    color: #2563eb !important;
+    background-color: #eff6ff;
 }
 
 .nav-link.active {
-  color: whitesmoke !important;
-  background-color: #eff6ff;
+    color: #2563eb !important;
+    background-color: #eff6ff;
+    font-weight: 600;
 }
 
 .nav-link.active::after {
@@ -379,7 +368,7 @@
 /* Dark mode support (optional) */
 @media (prefers-color-scheme: dark) {
   .navbar {
-    background-color: #1f2937;
+    /* background-color: #1f2937; */
     border-bottom: 1px solid #374151;
   }
 

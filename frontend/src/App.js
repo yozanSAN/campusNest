@@ -26,7 +26,7 @@ function AppContent({ user, handleLogout, setUser }) {
     <>
       {!hideNavbar && <Navbar user={user} onLogout={handleLogout} />}
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Home user={user} />} />
         <Route path="/login" element={<Login setUser={setUser} />} />
         <Route path="/register" element={<Register setUser={setUser} />} />
         <Route path="/about" element={<About />} />
@@ -39,7 +39,6 @@ function AppContent({ user, handleLogout, setUser }) {
         <Route path="/notifications" element={<Notifications />} />
         <Route path="/settings" element={<Settings />} />
         {/* <Route path="/dorm/:id" element={<DormDetails />} /> */}
-        <Route path="/" element={<Home user={user} />} />
         <Route path="/dorms/:dormId" element={<DormDetails />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
